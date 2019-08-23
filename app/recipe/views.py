@@ -11,7 +11,7 @@ class BaseRecipeAttrViewSet(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
                             mixins.CreateModelMixin):
     """
-    Base viewset for user owned recipe attributes
+    Base view-set for user owned recipe attributes
     """
 
     authentication_classes = (TokenAuthentication,)
@@ -66,3 +66,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """
 
         return self.queryset.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        """
+        Return appropriate serializer class
+        """
+
+        if self.action == 'retrieve':
+            return serializers.RecipeDetailSerializer
+
+        return self.serializer_class
